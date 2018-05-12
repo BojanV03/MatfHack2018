@@ -1,0 +1,2 @@
+episode,steps,reward_0,reward_1,loss_0,loss_1,eps_greedy_0,eps_greedy_1,collisions_0,collisions_1
+0,17,-3.004211520300865,0.06303504971262913,-0.058823529411764705,-0.058823529411764705,0.5,0.5,0.0,0.0

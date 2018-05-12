@@ -8,6 +8,7 @@ import os
 import pickle
 import code
 import random
+import time
 
 from ddpg import Actor, Critic
 from memory import Memory
@@ -211,17 +212,7 @@ if __name__ == '__main__':
     else:
         ou_x0 = [None for i in range(env.n)]
 
-    # if not os.path.exists(args.video_dir):
-    #     os.makedirs(args.video_dir)
-    # args.video_dir = os.path.join(
-    #     args.video_dir, 'monitor-' + time.strftime("%y-%m-%d-%H-%M"))
-    # if not os.path.exists(args.video_dir):
-    #     os.makedirs(args.video_dir)
-    # env = MyMonitor(env, args.video_dir,
-    #                 # resume=True, write_upon_reset=True,
-    #                 video_callable=lambda episode: (
-    #                     episode + 1) % args.video_interval == 0,
-    #                 force=True)
+    # if not os.path.exlo
 
     # set random seed
     env.seed(args.random_seed)

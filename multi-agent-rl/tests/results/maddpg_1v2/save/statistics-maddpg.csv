@@ -1,0 +1,2 @@
+episode,steps,reward_0,reward_1,reward_2,loss_0,loss_1,loss_2,collisions_0,collisions_1,collisions_2,ou_theta_0,ou_theta_1,ou_theta_2,ou_mu_0,ou_mu_1,ou_mu_2,ou_sigma_0,ou_sigma_1,ou_sigma_2,ou_dt_0,ou_dt_1,ou_dt_2,ou_x0_0,ou_x0_1,ou_x0_2
+0,35,-0.10677910829877998,-0.10677910829877998,-14.231208088229947,-0.02857142857142857,-0.02857142857142857,-0.02857142857142857,0.0,0.0,0.0,0.15,0.15,0.15,[0. 0. 0. 0. 0.],[0. 0. 0. 0. 0.],[0. 0. 0. 0. 0.],0.3,0.3,0.3,0.01,0.01,0.01,,,

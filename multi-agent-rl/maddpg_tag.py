@@ -9,6 +9,7 @@ import pickle
 import code
 import random
 from functools import reduce
+import json
 
 from maddpg import Actor, Critic
 from memory import Memory
@@ -41,6 +42,9 @@ def play(episodes, is_render, is_testing, checkpoint_interval,
         episode_rewards = np.zeros(env.n)
         collision_count = np.zeros(env.n)
         steps = 0
+        jsonFile = []
+        coords = []
+        fullyBreak = False
 
         while True:
             steps += 1
@@ -48,6 +52,14 @@ def play(episodes, is_render, is_testing, checkpoint_interval,
             # render
             if args.render:
                 env.render()
+
+            if args.dump_file:
+                # NIJE STO JE NASE...
+                frame = env.dump_file()
+                coords.append(frame)
+                print("Radim...\n")
+
+
 
             # act
             actions = []
@@ -102,6 +114,26 @@ def play(episodes, is_render, is_testing, checkpoint_interval,
                 statistic.extend([actors_noise[i].dt for i in range(env.n)])
                 statistic.extend([actors_noise[i].x0 for i in range(env.n)])
                 statistics.add_statistics(statistic)
+
+                # NIJE STO JE NASE...
+                
+                if args.dump_file:
+                    fileNum = 1
+                    print("Pravim...\n")
+                    with open("results/coords.txt", "w+") as f:
+                        f.write(str(len(coords[0])/2))
+                        f.write("\n")
+                        for fr in coords:
+                            print("Pisem...\n")
+                            f.write(" ".join(str(i) for i in fr))
+                            f.write("\n")
+                    fullyBreak = True
+                    break
+                
+
+                #fileNum += 1
+                coords = []
+
                 if episode % 25 == 0:
                     print(statistics.summarize_last())
                 break
@@ -117,6 +149,8 @@ def play(episodes, is_render, is_testing, checkpoint_interval,
             if episode >= checkpoint_interval:
                 os.remove("{}_{}.csv".format(csv_filename_prefix,
                                              episode - checkpoint_interval))
+        if fullyBreak:
+            break
 
     return statistics
 
@@ -129,6 +163,7 @@ if __name__ == '__main__':
     parser.add_argument('--episodes', default=100000, type=int)
     parser.add_argument('--video_interval', default=1000, type=int)
     parser.add_argument('--render', default=False, action="store_true")
+    parser.add_argument('--dump_file', default=False, action="store_true") # nase
     parser.add_argument('--benchmark', default=False, action="store_true")
     parser.add_argument('--experiment_prefix', default=".",
                         help="directory to store all experiment data")

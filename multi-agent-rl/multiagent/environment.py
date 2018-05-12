@@ -2,6 +2,7 @@ import gym
 from gym import spaces
 from gym.envs.registration import EnvSpec
 import numpy as np
+import time
 
 # environment for all agents in the multiagent world
 # currently code assumes that no agents will be created/destroyed at runtime!
@@ -195,6 +196,14 @@ class MultiAgentEnv(gym.Env):
         self.render_geoms = None
         self.render_geoms_xform = None
 
+    def dump_file(self):
+        agents_ = []
+
+        for agent in self.agents:
+            agents_.append(agent.state.p_pos[0])
+            agents_.append(agent.state.p_pos[1])
+        return agents_
+
     # render environment
     def render(self, mode='human'):
         if mode == 'human':
@@ -226,6 +235,7 @@ class MultiAgentEnv(gym.Env):
             from multiagent import rendering
             self.render_geoms = []
             self.render_geoms_xform = []
+                
             for entity in self.world.entities:
                 geom = rendering.make_circle(entity.size)
                 xform = rendering.Transform()
