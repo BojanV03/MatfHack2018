@@ -52,6 +52,7 @@ def play(episodes, is_render, is_testing, checkpoint_interval,
             # render
             if args.render:
                 env.render()
+                time.sleep(0.05)
 
             if args.dump_file:
                 # NIJE STO JE NASE...

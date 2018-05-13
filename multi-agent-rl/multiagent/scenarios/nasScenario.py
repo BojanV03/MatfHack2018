@@ -23,6 +23,7 @@ class Scenario(BaseScenario):
             agent.adversary = True if i < num_adversaries else False
             agent.size = 0.075 if agent.adversary else 0.05
             agent.accel = 3.0 if agent.adversary else 4.0
+            agent.immune = 0
             #agent.accel = 20.0 if agent.adversary else 25.0
             agent.max_speed = 1.0 if agent.adversary else 1.3
         # add landmarks
@@ -31,7 +32,7 @@ class Scenario(BaseScenario):
             landmark.name = 'landmark %d' % i
             landmark.collide = True
             landmark.movable = False
-            landmark.size = 0.03
+            landmark.size = 0.25
             landmark.boundary = False
         # make initial conditions
         self.reset_world(world)
@@ -44,6 +45,7 @@ class Scenario(BaseScenario):
                 [0.35, 0.85, 0.35]) if not agent.adversary else np.array([0.85, 0.35, 0.35])
             agent.accel = 3.0 if agent.adversary else 4.0
             agent.max_speed = 1.0 if agent.adversary else 1.3
+            agent.immune = 0
 
             # random properties for landmarks
         for i, landmark in enumerate(world.landmarks):
@@ -151,11 +153,12 @@ class Scenario(BaseScenario):
             agent.accel = 0
             agent.max_speed = 0
 
-        # jackpot = True
-        # for adv in adversaries:
-        #     if adv.active == True
-        #         jackpot = False
-        # return 10000
+        jackpot = True
+        for adv in adversaries:
+            if adv.active == True:
+                jackpot = False
+        if jackpot:
+            return 10000
 
         # AKO IZADJE IZ EKRANA
         def bound(x):
@@ -174,8 +177,13 @@ class Scenario(BaseScenario):
         if agent.collide:
             for adv in adversaries:
                 if self.is_collision(agent, adv):
-                    if agent.index != adv.index :
+                    if agent.index != adv.index and agent.immune == 0:
+                        agent.immune = 20
                         rew -= 300
+
+        if agent.immune > 0:
+            agent.immune -= 1
+
         return rew
 
     def observation(self, agent, world):
