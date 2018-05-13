@@ -46,7 +46,7 @@ def play(episodes, is_render, is_testing, checkpoint_interval,
         coords = []
         fullyBreak = False
 
-        while True:
+        while steps < 300:
             steps += 1
 
             # render
